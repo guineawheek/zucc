@@ -1,4 +1,5 @@
 import discord
+import asyncio
 import logging
 import json
 import sys
@@ -75,10 +76,22 @@ async def on_ready():
         guild = zucc.get_guild(megazucc_guild_id)
         for c in guild.text_channels:
             try:
+                count = 0
+                exc_count = 0
                 async for msg in c.history(limit=None, reverse=True):
-                    log_msg(msg)
+                    try:
+                        log_msg(msg)
+                        count += 1
+                        if count %= 50:
+                            await asyncio.sleep(2)
+                    except Exception:
+                        exc_count += 1
+                        if exc_count > 50: break
             except Exception:
                 pass
+        await asyncio.sleep(4)
+
+        log.info("Done with megazucc")
 
 
 @zucc.event
