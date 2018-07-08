@@ -82,7 +82,7 @@ async def on_ready():
                     try:
                         log_msg(msg)
                         count += 1
-                        if count %= 50:
+                        if count % 50 == 0:
                             await asyncio.sleep(2)
                     except Exception:
                         exc_count += 1
