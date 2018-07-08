@@ -33,6 +33,10 @@ with open("config.json") as f:
 megazucc = bool(config["megazucc"])
 megazucc_guild_id = int(config["megazucc_guild"])
 
+
+def g(thing):
+    return thing.guild.id == megazucc_guild_id
+
 config['megazucc'] = 0
 with open("config.json", 'w') as f:
     json.dump(config, f, indent=2)
@@ -79,22 +83,26 @@ async def on_ready():
 
 @zucc.event
 async def on_message(msg : discord.Message):
+    if not g(msg): return
     log_msg(msg)
 
 
 @zucc.event
 async def on_message_delete(msg : discord.Message):
+    if not g(msg): return
     log.info(json.dumps({"action": "deleted", "id": msg.id}))
 
 
 @zucc.event
 async def on_message_edit(before : discord.Message, after : discord.Message):
+    if not g(after): return
     log.info(json.dumps({"action": "edited", "id": before.id}))
     log_msg(after)
 
 
 @zucc.event
 async def on_member_join(member : discord.Member):
+    if not g(msg): return
 
     log.info(json.dumps({
         'action': "joined server",
@@ -103,6 +111,7 @@ async def on_member_join(member : discord.Member):
 
 @zucc.event
 async def on_member_remove(member : discord.Member):
+    if not g(msg): return
     log.info(json.dumps({
         'action': "left server",
         'authordata': (member.id, str(member), member.display_name)
