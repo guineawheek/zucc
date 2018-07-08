@@ -102,7 +102,7 @@ async def on_message_edit(before : discord.Message, after : discord.Message):
 
 @zucc.event
 async def on_member_join(member : discord.Member):
-    if not g(msg): return
+    if not g(member): return
 
     log.info(json.dumps({
         'action': "joined server",
@@ -111,7 +111,7 @@ async def on_member_join(member : discord.Member):
 
 @zucc.event
 async def on_member_remove(member : discord.Member):
-    if not g(msg): return
+    if not g(member): return
     log.info(json.dumps({
         'action': "left server",
         'authordata': (member.id, str(member), member.display_name)
