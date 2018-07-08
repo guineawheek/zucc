@@ -1,0 +1,4 @@
+venv/*
+zucc.log
+config.json*
+.idea
