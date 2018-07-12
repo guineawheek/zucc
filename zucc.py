@@ -54,6 +54,12 @@ def log_msg(msg: discord.Message):
     if msg.embeds:
         a['embeds'] = [e.to_dict() for e in msg.embeds]
 
+    if msg.attachments:
+        a['attachments'] = []
+        for at in msg.attachments:
+            a['attachments'].append(at.url)
+            # await at.save(f"{at.id}_{at.filename}")
+
     a['meta'] = {
         'id': msg.id,
         'timestamp': msg.created_at.isoformat(),
